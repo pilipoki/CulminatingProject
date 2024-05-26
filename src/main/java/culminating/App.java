@@ -102,12 +102,11 @@ public class App extends Application {
         emailCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldEmail = person.getEmail();
-            person.setEmail(event.getNewValue());
-
             // checks to see if it is a valid email when editing by using the matcher
             // it checks for characters followed by an @ followed by characters a . and more
             // chracters
-            if (isValidEmail(person.getEmail())) {
+            if (isValidEmail(event.getNewValue())) {
+                person.setEmail(event.getNewValue());
                 updateContactInCSV(person, oldEmail);
                 // if the conditions are not met the user gets an error message and has to put
                 // in valid information
@@ -132,8 +131,8 @@ public class App extends Application {
         phoneCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldPhoneNum = person.getPhoneNumber();
-            person.setPhoneNumber(event.getNewValue());
-            if (isValidPhoneNumber(person.getPhoneNumber())) {
+            if (isValidPhoneNumber(event.getNewValue())) {
+                person.setPhoneNumber(event.getNewValue());
                 updateContactInCSV(person, oldPhoneNum);
 
             } else {
@@ -155,8 +154,8 @@ public class App extends Application {
         postalCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldPostalCode = person.getPostalCode();
-            person.setPostalCode(event.getNewValue());
-            if (isValidPostalCode(person.getPostalCode())) {
+            if (isValidPostalCode(event.getNewValue())) {
+                person.setPostalCode(event.getNewValue());
                 updateContactInCSV(person, oldPostalCode);
 
             } else {

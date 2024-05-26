@@ -10,9 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -22,6 +22,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -31,6 +32,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.scene.control.TableColumn.CellEditEvent;
 
 /**
  * JavaFX App
@@ -40,13 +43,7 @@ public class App extends Application {
     private static Scene scene;
 
     private static TableView<Person> table = new TableView<>();
-    final ObservableList<Person> data = FXCollections.observableArrayList(
-            new Person("Jacob", "Smith", "jacob.smith@example.com", "M4C2M8", "416-294-5463"),
-            new Person("Isabella", "Johnson", "isabella.johnson@example.com", "M4C2M8", "416-294-5463"),
-            new Person("Ethan", "Williams", "ethan.williams@example.com", "M4C2M8", "416-294-5463"),
-            new Person("Emma", "Jones", "emma.jones@example.com", "M4C2M8", "416-294-5463"),
-            new Person("Michael", "Brown", "michael.brown@example.com", "M4C2M8", "416-294-5463"));
-
+    final ObservableList<Person> data = FXCollections.observableArrayList();
     @Override
     public void start(Stage stage) throws IOException {
         Scene scene = new Scene(new Group());
@@ -123,6 +120,7 @@ public class App extends Application {
             }
 
         });
+
 
         // same logic as firstname, but also checks to make sure it is a valid 10 digit
         // phone number
@@ -267,7 +265,7 @@ public class App extends Application {
         });
 
         // adds the textfield and addcontact button to the vbox
-        inputBox.getChildren().addAll(firstNameField, lastNameField, emailField, postalField,phoneField,
+        inputBox.getChildren().addAll(firstNameField, lastNameField, emailField, postalField, phoneField,
                 contactButton);
         vbox.getChildren().addAll(inputBox);
 
@@ -305,7 +303,7 @@ public class App extends Application {
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(
                 "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv",
                 true)))) {
-            writer.println(firstName + "," + lastName + "," + email + "," + postalCode + "," + phoneNum);
+            writer.print("\n"+firstName + "," + lastName + "," + email + "," + postalCode + "," + phoneNum);
         } catch (IOException e) {
             e.printStackTrace();
         }

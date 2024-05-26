@@ -151,6 +151,7 @@ public class App extends Application {
         postalCol.setCellValueFactory(
                 new PropertyValueFactory<Person, String>("postalCode"));
         postalCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        postalCol.setStyle("-fx-background-color: #A2A2A2;");
         postalCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldPostalCode = person.getPostalCode();

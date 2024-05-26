@@ -170,7 +170,7 @@ public class App extends Application {
         // takes the values for the csv and puts them into the observable list which
         // updates the tableview
 
-        populateTableFromCSV("/Users/nicholasmavriyannakis/Desktop/ICS4/final/src/main/java/isc4/contactList.csv");
+        populateTableFromCSV("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv");
 
         // add data to the table, tableview automaticly updates when data changes
         table.setItems(data);
@@ -299,7 +299,7 @@ public class App extends Application {
         // use buffered writer to append the new person into the csv by putting the
         // input separated by commas
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(
-                "/Users/nicholasmavriyannakis/Desktop/ICS4/final/src/main/java/isc4/contactList.csv", true)))) {
+                "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv", true)))) {
             writer.println(firstName + "," + lastName + "," + email + "," + postalCode + "," + phoneNum);
         } catch (IOException e) {
             e.printStackTrace();
@@ -311,7 +311,7 @@ public class App extends Application {
         try {
             // turns the csv into an array list
             List<String> lines = Files.readAllLines(
-                    Paths.get("/Users/nicholasmavriyannakis/Desktop/ICS4/final/src/main/java/isc4/contactList.csv"));
+                    Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"));
             List<String> updatedLines = new ArrayList<>();
             // breaks each line into parts based on commas and checks to see if it doesn't
             // match the deleted person
@@ -329,7 +329,7 @@ public class App extends Application {
                 }
             }
             // updates the csv excluding the deleted user
-            Files.write(Paths.get("/Users/nicholasmavriyannakis/Desktop/ICS4/final/src/main/java/isc4/contactList.csv"),
+            Files.write(Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"),
                     updatedLines);
 
         } catch (IOException e) {
@@ -343,7 +343,7 @@ public class App extends Application {
         try {
             // turns the csv into an array list
             List<String> lines = Files.readAllLines(
-                    Paths.get("/Users/nicholasmavriyannakis/Desktop/ICS4/final/src/main/java/isc4/contactList.csv"));
+                    Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"));
             List<String> updatedLines = new ArrayList<>();
             // gets the new contact info
             String updatedLine = updatedPerson.getFirstName() + "," + updatedPerson.getLastName() + ","
@@ -369,7 +369,7 @@ public class App extends Application {
                 }
             }
             // update the csv
-            Files.write(Paths.get("/Users/nicholasmavriyannakis/Desktop/ICS4/final/src/main/java/isc4/contactList.csv"),
+            Files.write(Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"),
                     updatedLines);
         } catch (IOException e) {
             e.printStackTrace();

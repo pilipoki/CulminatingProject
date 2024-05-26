@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -72,6 +73,7 @@ public class App extends Application {
         firstNameCol.setCellValueFactory(
                 new PropertyValueFactory<Person, String>("firstName"));
         // allows the name to be edited
+        firstNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         firstNameCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldFirstName = person.getFirstName();
@@ -85,6 +87,7 @@ public class App extends Application {
         lastNameCol.setMinWidth(100);
         lastNameCol.setCellValueFactory(
                 new PropertyValueFactory<Person, String>("lastName"));
+        lastNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lastNameCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldLastName = person.getLastName();
@@ -98,16 +101,15 @@ public class App extends Application {
         emailCol.setMinWidth(200);
         emailCol.setCellValueFactory(
                 new PropertyValueFactory<Person, String>("email"));
+        emailCol.setCellFactory(TextFieldTableCell.forTableColumn());
         emailCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldEmail = person.getEmail();
             person.setEmail(event.getNewValue());
 
             // checks to see if it is a valid email when editing by using the matcher
-
             // it checks for characters followed by an @ followed by characters a . and more
             // chracters
-
             if (isValidEmail(person.getEmail())) {
                 updateContactInCSV(person, oldEmail);
                 // if the conditions are not met the user gets an error message and has to put
@@ -128,6 +130,7 @@ public class App extends Application {
         phoneCol.setMinWidth(200);
         phoneCol.setCellValueFactory(
                 new PropertyValueFactory<Person, String>("phoneNumber"));
+        phoneCol.setCellFactory(TextFieldTableCell.forTableColumn());
         phoneCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldPhoneNum = person.getPhoneNumber();
@@ -150,7 +153,7 @@ public class App extends Application {
         postalCol.setMinWidth(200);
         postalCol.setCellValueFactory(
                 new PropertyValueFactory<Person, String>("postalCode"));
-
+        postalCol.setCellFactory(TextFieldTableCell.forTableColumn());
         postalCol.setOnEditCommit(event -> {
             Person person = event.getRowValue();
             String oldPostalCode = person.getPostalCode();
@@ -170,7 +173,8 @@ public class App extends Application {
         // takes the values for the csv and puts them into the observable list which
         // updates the tableview
 
-        populateTableFromCSV("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv");
+        populateTableFromCSV(
+                "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv");
 
         // add data to the table, tableview automaticly updates when data changes
         table.setItems(data);
@@ -187,7 +191,7 @@ public class App extends Application {
         HBox inputBox = new HBox();
         inputBox.setSpacing(10);
 
-        // text field allows them to click and add the infor they want
+        // text field allows them to click and add the info they want
 
         TextField firstNameField = new TextField();
         firstNameField.setPromptText("First Name");
@@ -263,7 +267,7 @@ public class App extends Application {
         });
 
         // adds the textfield and addcontact button to the vbox
-        inputBox.getChildren().addAll(firstNameField, lastNameField, emailField, phoneField, postalField,
+        inputBox.getChildren().addAll(firstNameField, lastNameField, emailField, postalField,phoneField,
                 contactButton);
         vbox.getChildren().addAll(inputBox);
 
@@ -299,7 +303,8 @@ public class App extends Application {
         // use buffered writer to append the new person into the csv by putting the
         // input separated by commas
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(
-                "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv", true)))) {
+                "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv",
+                true)))) {
             writer.println(firstName + "," + lastName + "," + email + "," + postalCode + "," + phoneNum);
         } catch (IOException e) {
             e.printStackTrace();
@@ -311,7 +316,8 @@ public class App extends Application {
         try {
             // turns the csv into an array list
             List<String> lines = Files.readAllLines(
-                    Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"));
+                    Paths.get(
+                            "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"));
             List<String> updatedLines = new ArrayList<>();
             // breaks each line into parts based on commas and checks to see if it doesn't
             // match the deleted person
@@ -329,7 +335,8 @@ public class App extends Application {
                 }
             }
             // updates the csv excluding the deleted user
-            Files.write(Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"),
+            Files.write(Paths.get(
+                    "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"),
                     updatedLines);
 
         } catch (IOException e) {
@@ -343,11 +350,13 @@ public class App extends Application {
         try {
             // turns the csv into an array list
             List<String> lines = Files.readAllLines(
-                    Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"));
+                    Paths.get(
+                            "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"));
             List<String> updatedLines = new ArrayList<>();
             // gets the new contact info
             String updatedLine = updatedPerson.getFirstName() + "," + updatedPerson.getLastName() + ","
-                    + updatedPerson.getEmail() + "," + updatedPerson.getPostalCode() + "," + updatedPerson.getPhoneNumber();
+                    + updatedPerson.getEmail() + "," + updatedPerson.getPostalCode() + ","
+                    + updatedPerson.getPhoneNumber();
             // breaks the csv into lines and parts and looks for if a part matches the
             // oldData which was passed in
             for (String line : lines) {
@@ -369,7 +378,8 @@ public class App extends Application {
                 }
             }
             // update the csv
-            Files.write(Paths.get("/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"),
+            Files.write(Paths.get(
+                    "/Users/darie/OneDrive/Documents/GitHub/CulminatingProject/src/main/java/culminating/contactList.csv"),
                     updatedLines);
         } catch (IOException e) {
             e.printStackTrace();
@@ -386,13 +396,12 @@ public class App extends Application {
         return phoneNumber.matches("\\d{10}");
     }
 
-// checks if passed in postal code matches the Canadian postal code pattern
-private boolean isValidPostalCode(String postalCode) {
-    // Canadian postal code pattern: A1A 1A1 or A1A1A1
-    String postalCodeRegex = "^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$";
-    return postalCode.matches(postalCodeRegex);
-}
-
+    // checks if passed in postal code matches the Canadian postal code pattern
+    private boolean isValidPostalCode(String postalCode) {
+        // Canadian postal code pattern: A1A 1A1 or A1A1A1
+        String postalCodeRegex = "^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$";
+        return postalCode.matches(postalCodeRegex);
+    }
 
     // create the Person Class to define data in an address book
     public static class Person {
